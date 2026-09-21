@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        DriveRent
+        {% endblock %}
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #222;
+        }
+
+        nav {
+            background: #111827;
+            padding: 18px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+
+        .container {
+            width: 86%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        footer {
+            margin-top: 60px;
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <nav>
+
+        <div class="nav-links">
+
+        <a href="/">
+        Home
+        </a>
+
+    <a href="/vehicles/">
+        Vehicles
+    </a>
+
+
+    {% if user.is_authenticated %}
+
+        <a href="/my-bookings/">
+         My Bookings
+        </a>
+
+        <a href="#">
+            {{ user.username }}
+        </a>
+
+        <a href="/logout/">
+            Logout
+        </a>
+
+    {% else %}
+
+        <a href="/login/">
+            Login
+        </a>
+
+        <a href="/register/">
+            Register
+        </a>
+
+    {% endif %}
+
+    {% if user.is_staff %}
+
+        <a href="/dashboard/">
+            Admin Dashboard
+        </a>
+
+    {% endif %}
+
+    </div>
+
+    </nav>
+
+
+    {% block content %}
+
+    {% endblock %}
+
+
+    <footer>
+
+        <p>
+            © 2026 DriveRent - Vehicle Rental Management System
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

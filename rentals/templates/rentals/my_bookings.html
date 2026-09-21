@@ -1,0 +1,236 @@
+{% extends "rentals/base.html" %}
+
+{% block title %}
+My Bookings | DriveRent
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .bookings-page {
+        min-height: 80vh;
+        background: #f7f8fa;
+        padding: 50px 0 70px;
+    }
+
+    .bookings-container {
+        width: 86%;
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    .bookings-header {
+        margin-bottom: 30px;
+    }
+
+    .bookings-header h1 {
+        color: #111827;
+        font-size: 34px;
+        margin-bottom: 8px;
+    }
+
+    .bookings-header p {
+        color: #6b7280;
+    }
+
+    .booking-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 18px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 25px;
+    }
+
+    .booking-info h2 {
+        color: #111827;
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .booking-info p {
+        color: #6b7280;
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .booking-price {
+        text-align: right;
+    }
+
+    .booking-price strong {
+        display: block;
+        color: #111827;
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-approved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-rejected {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .status-completed {
+        background: #e0e7ff;
+        color: #3730a3;
+    }
+
+    .no-bookings {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 50px;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    @media (max-width: 700px) {
+
+        .booking-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .booking-price {
+            text-align: left;
+        }
+
+    }
+
+</style>
+
+
+<section class="bookings-page">
+
+    <div class="bookings-container">
+
+        <div class="bookings-header">
+
+            <h1>
+                My Bookings
+            </h1>
+
+            <p>
+                View and track your vehicle rental bookings.
+            </p>
+
+        </div>
+
+
+        {% if bookings %}
+
+            {% for booking in bookings %}
+
+                <div class="booking-card">
+
+                    <div class="booking-info">
+
+                        <h2>
+                            {{ booking.vehicle.brand }}
+                            {{ booking.vehicle.model }}
+                        </h2>
+
+                        <p>
+                            <strong>Rental Period:</strong>
+                            {{ booking.start_date }}
+                            →
+                            {{ booking.end_date }}
+                        </p>
+
+                        <p>
+                            <strong>Days:</strong>
+                            {{ booking.number_of_days }}
+                        </p>
+
+                        <p>
+                            <strong>Booking Date:</strong>
+                            {{ booking.booking_date|date:"d M Y, h:i A" }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="booking-price">
+
+                        <strong>
+                            ₹{{ booking.total_amount }}
+                        </strong>
+
+
+                        {% if booking.status == "Pending" %}
+
+                            <span class="status status-pending">
+                                Pending
+                            </span>
+
+                        {% elif booking.status == "Approved" %}
+
+                            <span class="status status-approved">
+                                Approved
+                            </span>
+
+                        {% elif booking.status == "Rejected" %}
+
+                            <span class="status status-rejected">
+                                Rejected
+                            </span>
+
+                        {% else %}
+
+                            <span class="status status-completed">
+                                Completed
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-bookings">
+
+                <h2>
+                    No bookings yet
+                </h2>
+
+                <p>
+                    Browse our vehicles and make your first booking.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,736 @@
+{% extends "rentals/base.html" %}
+
+{% block title %}
+DriveRent Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .dashboard {
+        background: #f5f7fa;
+        min-height: 85vh;
+        padding: 45px 0 70px;
+    }
+
+    .dashboard-container {
+        width: 90%;
+        max-width: 1250px;
+        margin: auto;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 35px;
+    }
+
+    .dashboard-header h1 {
+        color: #111827;
+        font-size: 32px;
+        margin-bottom: 7px;
+    }
+
+    .dashboard-header p {
+        color: #6b7280;
+    }
+
+    .admin-badge {
+        background: #111827;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+
+    /* STAT CARDS */
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 35px;
+    }
+
+    .stat-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 25px;
+    }
+
+    .stat-label {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .stat-number {
+        color: #111827;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .stat-description {
+        color: #9ca3af;
+        font-size: 13px;
+        margin-top: 7px;
+    }
+
+
+    /* MAIN GRID */
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 25px;
+    }
+
+    .dashboard-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        padding: 20px 25px;
+        border-bottom: 1px solid #e5e7eb;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-header h2 {
+        color: #111827;
+        font-size: 19px;
+    }
+
+    .card-header a {
+        color: #2563eb;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+
+    /* TABLE */
+
+    .booking-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .booking-table th {
+        text-align: left;
+        background: #f9fafb;
+        color: #6b7280;
+
+        font-size: 12px;
+        text-transform: uppercase;
+
+        padding: 13px 20px;
+    }
+
+    .booking-table td {
+        padding: 15px 20px;
+
+        border-top: 1px solid #f0f0f0;
+
+        color: #374151;
+        font-size: 14px;
+    }
+
+    .booking-table tr:hover {
+        background: #fafafa;
+    }
+
+
+    /* STATUS */
+
+    .status {
+        display: inline-block;
+
+        padding: 5px 10px;
+
+        border-radius: 20px;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-approved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-rejected {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .status-completed {
+        background: #e0e7ff;
+        color: #3730a3;
+    }
+
+
+    /* QUICK ACTIONS */
+
+    .quick-actions {
+        padding: 25px;
+    }
+
+    .action {
+        display: block;
+
+        padding: 15px;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 8px;
+
+        margin-bottom: 12px;
+
+        text-decoration: none;
+
+        color: #111827;
+
+        font-weight: 600;
+
+        transition: 0.2s;
+    }
+
+    .action:hover {
+        border-color: #2563eb;
+        background: #f8fbff;
+    }
+
+    .action span {
+        display: block;
+
+        color: #6b7280;
+
+        font-size: 13px;
+
+        font-weight: normal;
+
+        margin-top: 4px;
+    }
+
+
+    /* PENDING */
+
+    .pending-box {
+        margin: 25px;
+
+        padding: 20px;
+
+        background: #fff7ed;
+
+        border: 1px solid #fed7aa;
+
+        border-radius: 10px;
+    }
+
+    .pending-box strong {
+        display: block;
+
+        font-size: 25px;
+
+        color: #9a3412;
+
+        margin-bottom: 5px;
+    }
+
+    .pending-box span {
+        color: #9a3412;
+
+        font-size: 14px;
+    }
+    .booking-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.booking-actions form {
+    margin: 0;
+}
+
+.approve-button,
+.reject-button {
+    border: none;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.approve-button {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.approve-button:hover {
+    background: #bbf7d0;
+}
+
+.reject-button {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.reject-button:hover {
+    background: #fecaca;
+}
+
+.action-completed {
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1000px) {
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .booking-table {
+            font-size: 12px;
+        }
+
+    }
+
+</style>
+
+
+<section class="dashboard">
+
+    <div class="dashboard-container">
+
+
+        <!-- HEADER -->
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Welcome to the DriveRent administration panel.
+                </p>
+
+            </div>
+
+            <div class="admin-badge">
+                Administrator
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total Vehicles
+                </div>
+
+                <div class="stat-number">
+                    {{ total_vehicles }}
+                </div>
+
+                <div class="stat-description">
+                    Vehicles in system
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Available Vehicles
+                </div>
+
+                <div class="stat-number">
+                    {{ available_vehicles }}
+                </div>
+
+                <div class="stat-description">
+                    Ready for rental
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Customers
+                </div>
+
+                <div class="stat-number">
+                    {{ total_customers }}
+                </div>
+
+                <div class="stat-description">
+                    Registered customers
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total Bookings
+                </div>
+
+                <div class="stat-number">
+                    {{ total_bookings }}
+                </div>
+
+                <div class="stat-description">
+                    Rental requests
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- RECENT BOOKINGS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Recent Bookings
+                    </h2>
+
+                    <a
+                        href="/admin/rentals/booking/"
+                    >
+                        View All
+                    </a>
+
+                </div>
+
+
+                {% if recent_bookings %}
+
+                <table class="booking-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Vehicle
+                            </th>
+
+                            <th>
+                                Dates
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for booking in recent_bookings %}
+
+                        <tr>
+
+                            <td>
+                                {{ booking.customer.username }}
+                            </td>
+
+                            <td>
+                                {{ booking.vehicle.brand }}
+                                {{ booking.vehicle.model }}
+                            </td>
+
+                            <td>
+                                {{ booking.start_date }}
+                                →
+                                {{ booking.end_date }}
+                            </td>
+
+                            <td>
+
+    {% if booking.status == "Pending" %}
+
+        <span class="status status-pending">
+            Pending
+        </span>
+
+    {% elif booking.status == "Approved" %}
+
+        <span class="status status-approved">
+            Approved
+        </span>
+
+    {% elif booking.status == "Rejected" %}
+
+        <span class="status status-rejected">
+            Rejected
+        </span>
+
+    {% else %}
+
+        <span class="status status-completed">
+            Completed
+        </span>
+
+    {% endif %}
+
+</td>
+
+
+<td>
+
+    {% if booking.status == "Pending" %}
+
+        <div class="booking-actions">
+
+            <form
+                method="POST"
+                action="{% url 'update_booking_status' booking.id 'Approved' %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="approve-button"
+                >
+                    Approve
+                </button>
+
+            </form>
+
+
+            <form
+                method="POST"
+                action="{% url 'update_booking_status' booking.id 'Rejected' %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="reject-button"
+                >
+                    Reject
+                </button>
+
+            </form>
+
+        </div>
+
+    {% else %}
+
+        <span class="action-completed">
+            Processed
+        </span>
+
+    {% endif %}
+
+</td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+                {% else %}
+
+                    <div style="padding: 30px; color: #6b7280;">
+                        No bookings yet.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- RIGHT COLUMN -->
+
+            <div>
+
+
+                <!-- PENDING -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <h2>
+                            Pending Bookings
+                        </h2>
+
+                    </div>
+
+
+                    <div class="pending-box">
+
+                        <strong>
+                            {{ pending_bookings }}
+                        </strong>
+
+                        <span>
+                            Booking requests waiting for review
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div
+                    class="dashboard-card"
+                    style="margin-top: 25px;"
+                >
+
+                    <div class="card-header">
+
+                        <h2>
+                            Quick Actions
+                        </h2>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+                        <a
+                            href="/admin/rentals/vehicle/add/"
+                            class="action"
+                        >
+                            + Add Vehicle
+
+                            <span>
+                                Add a new rental vehicle
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="/admin/rentals/vehicle/"
+                            class="action"
+                        >
+                            🚗 Manage Vehicles
+
+                            <span>
+                                View and edit vehicles
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="/admin/rentals/booking/"
+                            class="action"
+                        >
+                            📋 Manage Bookings
+
+                            <span>
+                                Review customer bookings
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="/admin/auth/user/"
+                            class="action"
+                        >
+                            👥 Manage Customers
+
+                            <span>
+                                View registered users
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

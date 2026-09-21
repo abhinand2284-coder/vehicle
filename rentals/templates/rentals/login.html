@@ -1,0 +1,130 @@
+{% extends "rentals/base.html" %}
+
+{% block title %}
+Login | DriveRent
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .auth-page {
+        min-height: 75vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #f7f8fa;
+
+        padding: 50px 20px;
+    }
+
+    .auth-box {
+        width: 100%;
+        max-width: 450px;
+
+        background: white;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 14px;
+
+        padding: 40px;
+
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .auth-box h1 {
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .auth-box p {
+        color: #6b7280;
+        margin-bottom: 30px;
+    }
+
+    .auth-box form p {
+        margin-bottom: 18px;
+    }
+
+    .auth-box label {
+        display: block;
+        color: #374151;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .auth-box input {
+        width: 100%;
+        padding: 12px;
+
+        border: 1px solid #d1d5db;
+
+        border-radius: 7px;
+
+        font-size: 15px;
+    }
+
+    .auth-button {
+        width: 100%;
+
+        border: none;
+
+        background: #2563eb;
+
+        color: white;
+
+        padding: 14px;
+
+        border-radius: 8px;
+
+        font-size: 15px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .auth-button:hover {
+        background: #1d4ed8;
+    }
+
+</style>
+
+
+<section class="auth-page">
+
+    <div class="auth-box">
+
+        <h1>
+            Welcome Back
+        </h1>
+
+        <p>
+            Login to your DriveRent account.
+        </p>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+
+            <button
+                type="submit"
+                class="auth-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,323 @@
+{% extends "rentals/base.html" %}
+
+{% block title %}
+{{ vehicle.brand }} {{ vehicle.model }} | DriveRent
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .details-page {
+        background: #f7f8fa;
+        min-height: 80vh;
+        padding: 60px 0;
+    }
+
+    .details-container {
+        width: 86%;
+        max-width: 1100px;
+        margin: auto;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 45px;
+
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .details-image {
+        min-height: 500px;
+        background: #eef1f5;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .details-image img {
+        width: 100%;
+        height: 100%;
+        min-height: 500px;
+        object-fit: cover;
+    }
+
+    .no-image {
+        color: #9ca3af;
+        font-size: 16px;
+    }
+
+    .details-content {
+        padding: 50px 45px 50px 10px;
+    }
+
+    .vehicle-type {
+        display: inline-block;
+
+        background: #eff6ff;
+        color: #2563eb;
+
+        padding: 6px 12px;
+
+        border-radius: 20px;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        margin-bottom: 18px;
+    }
+
+    .details-content h1 {
+        font-size: 38px;
+        color: #111827;
+        margin-bottom: 10px;
+    }
+
+    .brand {
+        color: #6b7280;
+        font-size: 17px;
+        margin-bottom: 25px;
+    }
+
+    .description {
+        color: #6b7280;
+        line-height: 1.7;
+        margin-bottom: 30px;
+    }
+
+    .vehicle-info {
+        border-top: 1px solid #e5e7eb;
+        border-bottom: 1px solid #e5e7eb;
+
+        padding: 20px 0;
+
+        margin-bottom: 30px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+
+        padding: 9px 0;
+
+        color: #4b5563;
+    }
+
+    .info-row strong {
+        color: #111827;
+    }
+
+    .price {
+        font-size: 28px;
+        font-weight: 700;
+        color: #111827;
+
+        margin-bottom: 20px;
+    }
+
+    .price span {
+        font-size: 14px;
+        color: #6b7280;
+        font-weight: normal;
+    }
+
+    .book-button {
+        display: block;
+
+        width: 100%;
+
+        background: #2563eb;
+        color: white;
+
+        text-align: center;
+        text-decoration: none;
+
+        padding: 15px;
+
+        border-radius: 8px;
+
+        font-weight: 600;
+
+        transition: 0.2s;
+    }
+
+    .book-button:hover {
+        background: #1d4ed8;
+    }
+
+    .back-link {
+        display: inline-block;
+
+        width: 86%;
+        max-width: 1100px;
+
+        margin: 0 auto 20px;
+
+        color: #6b7280;
+        text-decoration: none;
+    }
+
+    .back-link:hover {
+        color: #2563eb;
+    }
+
+
+    @media (max-width: 800px) {
+
+        .details-container {
+            grid-template-columns: 1fr;
+        }
+
+        .details-content {
+            padding: 35px;
+        }
+
+    }
+
+</style>
+
+
+<section class="details-page">
+
+    <a href="{% url 'vehicle_list' %}" class="back-link">
+        ← Back to Vehicles
+    </a>
+
+
+    <div class="details-container">
+
+
+        <!-- IMAGE -->
+
+        <div class="details-image">
+
+            {% if vehicle.image %}
+
+                <img
+                    src="{{ vehicle.image.url }}"
+                    alt="{{ vehicle.brand }} {{ vehicle.model }}"
+                >
+
+            {% else %}
+
+                <div class="no-image">
+                    No vehicle image available
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- DETAILS -->
+
+        <div class="details-content">
+
+            <span class="vehicle-type">
+                {{ vehicle.vehicle_type }}
+            </span>
+
+
+            <h1>
+                {{ vehicle.brand }}
+                {{ vehicle.model }}
+            </h1>
+
+
+            <p class="brand">
+                {{ vehicle.name }}
+            </p>
+
+
+            {% if vehicle.description %}
+
+                <p class="description">
+                    {{ vehicle.description }}
+                </p>
+
+            {% else %}
+
+                <p class="description">
+                    Reliable and well-maintained vehicle
+                    available for rental.
+                </p>
+
+            {% endif %}
+
+
+            <div class="vehicle-info">
+
+                <div class="info-row">
+
+                    <span>Brand</span>
+
+                    <strong>
+                        {{ vehicle.brand }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Model</span>
+
+                    <strong>
+                        {{ vehicle.model }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Registration</span>
+
+                    <strong>
+                        {{ vehicle.registration_number }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Availability</span>
+
+                    <strong>
+                        Available
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="price">
+
+                ₹{{ vehicle.price_per_day }}
+
+                <span>
+                    / day
+                </span>
+
+            </div>
+
+
+            <a
+                href="{% url 'book_vehicle' vehicle.id %}"
+                class="book-button"
+            >
+                Book Now
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

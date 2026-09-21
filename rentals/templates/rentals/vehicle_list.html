@@ -1,0 +1,320 @@
+{% extends "rentals/base.html" %}
+
+{% block title %}
+Available Vehicles | DriveRent
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .vehicles-page {
+        background: #f7f8fa;
+        min-height: 80vh;
+        padding: 50px 0 70px;
+    }
+
+    .vehicles-header {
+        width: 86%;
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 35px;
+    }
+
+    .vehicles-header h1 {
+        font-size: 38px;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .vehicles-header p {
+        color: #6b7280;
+        font-size: 16px;
+    }
+
+    .search-box {
+        width: 86%;
+        max-width: 1200px;
+        margin: 0 auto 35px;
+    }
+
+    .search-box input {
+        width: 100%;
+        padding: 15px 18px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 15px;
+        outline: none;
+        background: white;
+    }
+
+    .search-box input:focus {
+        border-color: #2563eb;
+    }
+
+    .vehicle-grid {
+        width: 86%;
+        max-width: 1200px;
+        margin: auto;
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+    .vehicle-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        overflow: hidden;
+        transition: 0.25s ease;
+    }
+
+    .vehicle-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .vehicle-image {
+        width: 100%;
+        height: 210px;
+        background: #eef1f5;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+    .vehicle-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .no-image {
+        color: #9ca3af;
+        font-size: 15px;
+    }
+
+    .vehicle-info {
+        padding: 22px;
+    }
+
+    .vehicle-type {
+        display: inline-block;
+        background: #eff6ff;
+        color: #2563eb;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .vehicle-name {
+        font-size: 21px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 7px;
+    }
+
+    .vehicle-registration {
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 18px;
+    }
+
+    .vehicle-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .price {
+        color: #111827;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .price span {
+        color: #6b7280;
+        font-size: 13px;
+        font-weight: normal;
+    }
+
+    .book-button {
+        background: #111827;
+        color: white;
+        text-decoration: none;
+        padding: 11px 18px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .book-button:hover {
+        background: #2563eb;
+    }
+
+    .empty-message {
+        width: 86%;
+        max-width: 1200px;
+        margin: 50px auto;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    @media (max-width: 900px) {
+
+        .vehicle-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+    }
+
+    @media (max-width: 600px) {
+
+        .vehicle-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .vehicles-header h1 {
+            font-size: 30px;
+        }
+
+    }
+
+</style>
+
+
+<section class="vehicles-page">
+
+    <div class="vehicles-header">
+
+        <div>
+
+            <h1>Available Vehicles</h1>
+
+            <p>
+                Choose a vehicle that fits your journey.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            placeholder="Search vehicles by brand or model..."
+        >
+
+    </div>
+
+
+    {% if vehicles %}
+
+    <div class="vehicle-grid">
+
+        {% for vehicle in vehicles %}
+
+        <div class="vehicle-card">
+
+
+            <div class="vehicle-image">
+
+                {% if vehicle.image %}
+
+                    <img
+                        src="{{ vehicle.image.url }}"
+                        alt="{{ vehicle.brand }} {{ vehicle.model }}"
+                    >
+
+                {% else %}
+
+                    <div class="no-image">
+                        No vehicle image available
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="vehicle-info">
+
+                <span class="vehicle-type">
+                    {{ vehicle.vehicle_type }}
+                </span>
+
+
+                <div class="vehicle-name">
+
+                    {{ vehicle.brand }}
+                    {{ vehicle.model }}
+
+                </div>
+
+
+                <div class="vehicle-registration">
+
+                    Registration:
+                    {{ vehicle.registration_number }}
+
+                </div>
+
+
+                <div class="vehicle-bottom">
+
+                    <div class="price">
+
+                        ₹{{ vehicle.price_per_day }}
+
+                        <span>/ day</span>
+
+                    </div>
+
+
+                    <a href="{% url 'vehicle_detail' vehicle.id %}" 
+                        class="book-button"
+                    >
+
+                        View Details
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-message">
+
+        <h2>No vehicles available</h2>
+
+        <p>
+            Please check again later.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

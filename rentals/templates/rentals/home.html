@@ -1,0 +1,380 @@
+{% extends "rentals/base.html" %}
+
+{% block title %}
+DriveRent | Vehicle Rental
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* HERO SECTION */
+
+    .hero {
+        min-height: 560px;
+        background:
+            linear-gradient(
+                90deg,
+                rgba(10, 15, 25, 0.92),
+                rgba(10, 15, 25, 0.55),
+                rgba(10, 15, 25, 0.15)
+            ),
+            url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85");
+
+        background-size: cover;
+        background-position: center;
+
+        display: flex;
+        align-items: center;
+    }
+
+
+    .hero-content {
+        width: 86%;
+        max-width: 1200px;
+        margin: auto;
+        color: white;
+    }
+
+
+    .hero-content h1 {
+        font-size: 58px;
+        line-height: 1.1;
+        max-width: 650px;
+        margin-bottom: 22px;
+        font-weight: 800;
+    }
+
+
+    .hero-content p {
+        font-size: 19px;
+        line-height: 1.6;
+        max-width: 560px;
+        color: #e5e7eb;
+        margin-bottom: 32px;
+    }
+
+
+    .hero-buttons {
+        display: flex;
+        gap: 15px;
+    }
+
+
+    .primary-button {
+        display: inline-block;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        padding: 14px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+
+    .primary-button:hover {
+        background: #1d4ed8;
+    }
+
+
+    .secondary-button {
+        display: inline-block;
+        background: white;
+        color: #111827;
+        text-decoration: none;
+        padding: 14px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+
+    .secondary-button:hover {
+        background: #f3f4f6;
+    }
+
+
+    /* SERVICES */
+
+    .services {
+        padding: 80px 0;
+        background: #ffffff;
+    }
+
+
+    .section-container {
+        width: 86%;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+
+    .section-title h2 {
+        font-size: 34px;
+        color: #111827;
+        margin-bottom: 10px;
+    }
+
+
+    .section-title p {
+        color: #6b7280;
+    }
+
+
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+
+    .service-card {
+        padding: 30px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: white;
+        transition: 0.25s;
+    }
+
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+    }
+
+
+    .service-icon {
+        width: 50px;
+        height: 50px;
+        background: #eff6ff;
+        color: #2563eb;
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+
+    .service-card h3 {
+        font-size: 19px;
+        color: #111827;
+        margin-bottom: 10px;
+    }
+
+
+    .service-card p {
+        color: #6b7280;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+
+
+    /* CTA */
+
+    .cta {
+        background: #111827;
+        padding: 70px 20px;
+        text-align: center;
+        color: white;
+    }
+
+
+    .cta h2 {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+
+
+    .cta p {
+        color: #d1d5db;
+        margin-bottom: 28px;
+    }
+
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+
+        .hero-content h1 {
+            font-size: 45px;
+        }
+
+        .service-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .hero {
+            min-height: 500px;
+        }
+
+        .hero-content h1 {
+            font-size: 36px;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+            width: 200px;
+        }
+
+    }
+
+</style>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Your Journey.<br>
+            Our Vehicles.
+        </h1>
+
+        <p>
+            Rent reliable and well-maintained vehicles
+            for business, travel, and everyday journeys.
+            Choose your vehicle and get on the road with confidence.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/vehicles/" class="primary-button">
+                Explore Vehicles
+            </a>
+
+            <a href="#services" class="secondary-button">
+                Learn More
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SERVICES -->
+
+<section class="services" id="services">
+
+    <div class="section-container">
+
+        <div class="section-title">
+
+            <h2>
+                Why Choose DriveRent?
+            </h2>
+
+            <p>
+                A simple and convenient way to rent your vehicle.
+            </p>
+
+        </div>
+
+
+        <div class="service-grid">
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🚗
+                </div>
+
+                <h3>
+                    Wide Range of Vehicles
+                </h3>
+
+                <p>
+                    Choose from cars, SUVs, bikes, vans,
+                    and other vehicles based on your requirements.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    Easy Booking
+                </h3>
+
+                <p>
+                    Select your vehicle, choose your rental
+                    dates, and complete your booking in a few simple steps.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    ₹
+                </div>
+
+                <h3>
+                    Transparent Pricing
+                </h3>
+
+                <p>
+                    View the rental price before booking
+                    with clear daily pricing and no hidden costs.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <h2>
+        Ready to Start Your Journey?
+    </h2>
+
+    <p>
+        Find the right vehicle for your next trip.
+    </p>
+
+    <a href="/vehicles/" class="primary-button">
+        Browse Vehicles
+    </a>
+
+</section>
+
+
+{% endblock %}
