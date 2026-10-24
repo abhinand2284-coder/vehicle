@@ -1,3 +1,4 @@
+
 {% extends "rentals/base.html" %}
 
 {% block title %}
@@ -7,146 +8,226 @@ My Bookings | DriveRent
 {% block content %}
 
 <style>
+.bookings-page {
+    min-height: 80vh;
+    background: #e9eef6;
+    padding: 48px 0 70px;
+    color: #0f172a;
+}
 
-    .bookings-page {
-        min-height: 80vh;
-        background: #f7f8fa;
-        padding: 50px 0 70px;
-    }
+.bookings-container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
 
+.bookings-header {
+    margin-bottom: 30px;
+    padding: 26px 28px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-left: 5px solid #2563eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+.bookings-header h1 {
+    color: #0f172a;
+    font-size: 32px;
+    margin: 0 0 8px;
+    font-weight: 800;
+}
+
+.bookings-header p {
+    color: #475569;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.booking-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 7px 20px rgba(15, 23, 42, 0.08);
+    transition: box-shadow .2s, border-color .2s;
+}
+
+.booking-card:hover {
+    border-color: #94a3b8;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+}
+
+.booking-info {
+    min-width: 0;
+}
+
+.booking-info h2 {
+    color: #0f172a;
+    font-size: 21px;
+    font-weight: 750;
+    margin: 0 0 15px;
+}
+
+.booking-info p {
+    color: #475569;
+    margin: 9px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.booking-info p strong {
+    color: #1e293b;
+}
+
+.booking-price {
+    min-width: 150px;
+    text-align: right;
+    padding-left: 20px;
+    border-left: 1px solid #e2e8f0;
+}
+
+.booking-price strong {
+    display: block;
+    color: #1d4ed8;
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 13px;
+    white-space: nowrap;
+}
+
+.status {
+    display: inline-block;
+    padding: 7px 13px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 750;
+    border: 1px solid transparent;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #854d0e;
+    border-color: #fcd34d;
+}
+
+.status-approved {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #86efac;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+.status-completed {
+    background: #e0e7ff;
+    color: #3730a3;
+    border-color: #a5b4fc;
+}
+
+.no-bookings {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 55px 25px;
+    text-align: center;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+.empty-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 18px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 28px;
+}
+
+.no-bookings h2 {
+    color: #0f172a;
+    margin: 0 0 10px;
+}
+
+.no-bookings p {
+    color: #475569;
+    margin: 0 0 22px;
+}
+
+.browse-button {
+    display: inline-block;
+    text-decoration: none;
+    background: #1d4ed8;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.browse-button:hover {
+    background: #1e40af;
+}
+
+@media (max-width: 650px) {
     .bookings-container {
-        width: 86%;
-        max-width: 1100px;
-        margin: auto;
+        width: 92%;
     }
 
     .bookings-header {
-        margin-bottom: 30px;
+        padding: 22px;
     }
 
     .bookings-header h1 {
-        color: #111827;
-        font-size: 34px;
-        margin-bottom: 8px;
-    }
-
-    .bookings-header p {
-        color: #6b7280;
+        font-size: 27px;
     }
 
     .booking-card {
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 25px;
-        margin-bottom: 18px;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        gap: 25px;
-    }
-
-    .booking-info h2 {
-        color: #111827;
-        font-size: 20px;
-        margin-bottom: 8px;
-    }
-
-    .booking-info p {
-        color: #6b7280;
-        margin: 5px 0;
-        font-size: 14px;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 22px;
+        gap: 20px;
     }
 
     .booking-price {
-        text-align: right;
+        text-align: left;
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+        padding: 17px 0 0;
+        min-width: 0;
     }
 
     .booking-price strong {
-        display: block;
-        color: #111827;
-        font-size: 22px;
-        margin-bottom: 10px;
+        font-size: 23px;
     }
-
-    .status {
-        display: inline-block;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .status-pending {
-        background: #fef3c7;
-        color: #92400e;
-    }
-
-    .status-approved {
-        background: #dcfce7;
-        color: #166534;
-    }
-
-    .status-rejected {
-        background: #fee2e2;
-        color: #991b1b;
-    }
-
-    .status-completed {
-        background: #e0e7ff;
-        color: #3730a3;
-    }
-
-    .no-bookings {
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 50px;
-        text-align: center;
-        color: #6b7280;
-    }
-
-    @media (max-width: 700px) {
-
-        .booking-card {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .booking-price {
-            text-align: left;
-        }
-
-    }
-
+}
 </style>
 
-
 <section class="bookings-page">
-
     <div class="bookings-container">
 
-        <div class="bookings-header">
-
-            <h1>
-                My Bookings
-            </h1>
-
-            <p>
-                View and track your vehicle rental bookings.
-            </p>
-
-        </div>
-
+        <header class="bookings-header">
+            <h1>My Bookings</h1>
+            <p>View your rental details, track booking status, and manage your trips.</p>
+        </header>
 
         {% if bookings %}
-
             {% for booking in bookings %}
 
-                <div class="booking-card">
-
+                <article class="booking-card">
                     <div class="booking-info">
 
                         <h2>
@@ -155,82 +236,64 @@ My Bookings | DriveRent
                         </h2>
 
                         <p>
-                            <strong>Rental Period:</strong>
-                            {{ booking.start_date }}
-                            →
-                            {{ booking.end_date }}
+                            <strong>Vehicle:</strong>
+                            {{ booking.vehicle.name }}
                         </p>
 
                         <p>
-                            <strong>Days:</strong>
+                            <strong>Pickup date:</strong>
+                            {{ booking.start_date|date:"d M Y" }}
+                        </p>
+
+                        <p>
+                            <strong>Return date:</strong>
+                            {{ booking.end_date|date:"d M Y" }}
+                        </p>
+
+                        <p>
+                            <strong>Rental duration:</strong>
                             {{ booking.number_of_days }}
+                            day{{ booking.number_of_days|pluralize }}
                         </p>
 
                         <p>
-                            <strong>Booking Date:</strong>
+                            <strong>Booking submitted:</strong>
                             {{ booking.booking_date|date:"d M Y, h:i A" }}
                         </p>
 
                     </div>
 
-
                     <div class="booking-price">
-
-                        <strong>
-                            ₹{{ booking.total_amount }}
-                        </strong>
-
+                        <strong>₹{{ booking.total_amount }}</strong>
 
                         {% if booking.status == "Pending" %}
-
-                            <span class="status status-pending">
-                                Pending
-                            </span>
-
+                            <span class="status status-pending">Pending</span>
                         {% elif booking.status == "Approved" %}
-
-                            <span class="status status-approved">
-                                Approved
-                            </span>
-
+                            <span class="status status-approved">Approved</span>
                         {% elif booking.status == "Rejected" %}
-
-                            <span class="status status-rejected">
-                                Rejected
-                            </span>
-
+                            <span class="status status-rejected">Rejected</span>
                         {% else %}
-
-                            <span class="status status-completed">
-                                Completed
-                            </span>
-
+                            <span class="status status-completed">Completed</span>
                         {% endif %}
-
                     </div>
-
-                </div>
+                </article>
 
             {% endfor %}
 
         {% else %}
 
             <div class="no-bookings">
-
-                <h2>
-                    No bookings yet
-                </h2>
-
-                <p>
-                    Browse our vehicles and make your first booking.
-                </p>
-
+                <div class="empty-icon" aria-hidden="true">↗</div>
+                <h2>No bookings yet</h2>
+                <p>Your vehicle reservations will appear here after you book.</p>
+                <a class="browse-button" href="{% url 'vehicle_list' %}">
+                    Browse Vehicles
+                </a>
             </div>
 
         {% endif %}
 
     </div>
-
 </section>
 
 {% endblock %}

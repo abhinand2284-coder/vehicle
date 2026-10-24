@@ -8,9 +8,10 @@ Book {{ vehicle.brand }} {{ vehicle.model }} | DriveRent
 {% block content %}
 
 <style>
+
 .booking-page {
     min-height: 80vh;
-    background: #f5f7fb;
+    background: #e9eef6;
     padding: 45px 0;
     color: #111827;
 }
@@ -25,12 +26,21 @@ Book {{ vehicle.brand }} {{ vehicle.model }} | DriveRent
     align-items: start;
 }
 
-.booking-card, .vehicle-summary {
-    background: #fff;
-    border: 1px solid #e5e7eb;
+.booking-card,
+.vehicle-summary {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
     border-radius: 16px;
     padding: 30px;
-    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+.booking-card {
+    border-top: 4px solid #2563eb;
+}
+
+.vehicle-summary {
+    border-top: 4px solid #0f172a;
 }
 
 .booking-heading {
@@ -44,12 +54,13 @@ Book {{ vehicle.brand }} {{ vehicle.model }} | DriveRent
     width: 48px;
     height: 48px;
     flex-shrink: 0;
-    border-radius: 13px;
-    background: #eaf1ff;
+    border-radius: 12px;
+    background: #dbeafe;
+    border: 1px solid #93c5fd;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #2563eb;
+    color: #1d4ed8;
 }
 
 .car-icon svg {
@@ -60,21 +71,24 @@ Book {{ vehicle.brand }} {{ vehicle.model }} | DriveRent
 .booking-card h1 {
     font-size: 26px;
     margin: 0;
-    color: #111827;
+    color: #0f172a;
+    font-weight: 750;
 }
 
 .subtitle {
-    color: #6b7280;
+    color: #475569;
     font-size: 14px;
     margin: 0 0 25px;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .section-title {
     font-size: 15px;
-    font-weight: 700;
-    margin: 24px 0 15px;
-    color: #1f2937;
+    font-weight: 750;
+    margin: 25px 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dbe3ee;
+    color: #172554;
 }
 
 .form-row {
@@ -84,115 +98,128 @@ Book {{ vehicle.brand }} {{ vehicle.model }} | DriveRent
 }
 
 .form-group {
-    margin-bottom: 17px;
+    margin-bottom: 18px;
     min-width: 0;
 }
 
 .form-group label {
     display: block;
     font-size: 13px;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 7px;
+    font-weight: 700;
+    color: #273449;
+    margin-bottom: 8px;
 }
 
-.form-group input, .form-group textarea {
+.form-group input,
+.form-group textarea {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    padding: 12px;
-    border: 1px solid #d1d5db;
+    padding: 13px;
+    border: 1px solid #aebdce;
     border-radius: 8px;
-    background: #fff;
+    background: #f8fafc;
     color: #111827;
     font-family: inherit;
     font-size: 14px;
-    transition: border-color .2s, box-shadow .2s;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.form-group input:hover,
+.form-group textarea:hover {
+    border-color: #64748b;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
 }
 
 .form-group textarea {
     resize: vertical;
-    min-height: 76px;
-}
-
-.form-group input:focus, .form-group textarea:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+    min-height: 85px;
 }
 
 .submit-button {
     width: 100%;
-    border: none;
-    background: #2563eb;
+    border: 1px solid #1d4ed8;
+    background: #1d4ed8;
     color: white;
-    padding: 14px;
+    padding: 15px;
     border-radius: 9px;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
     margin-top: 5px;
+    transition: background .2s, transform .2s;
 }
 
 .submit-button:hover {
-    background: #1d4ed8;
+    background: #1e40af;
 }
 
 .secure-note {
     text-align: center;
-    color: #6b7280;
+    color: #475569;
     font-size: 12px;
-    margin: 13px 0 0;
+    margin: 14px 0 0;
+    line-height: 1.6;
 }
 
 .vehicle-summary h2 {
     margin: 0 0 18px;
     font-size: 21px;
+    color: #0f172a;
 }
 
 .vehicle-summary img {
     width: 100%;
     height: 215px;
     object-fit: cover;
-    border-radius: 11px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
     margin-bottom: 17px;
 }
 
 .vehicle-placeholder {
     height: 180px;
-    border-radius: 11px;
-    background: #eef2f7;
+    border-radius: 10px;
+    background: #e2e8f0;
+    border: 1px solid #cbd5e1;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
+    color: #475569;
     margin-bottom: 17px;
 }
 
 .vehicle-summary p {
-    color: #6b7280;
-    margin: 11px 0;
+    color: #475569;
+    margin: 13px 0;
     font-size: 14px;
     overflow-wrap: anywhere;
 }
 
 .vehicle-summary strong {
-    color: #374151;
+    color: #1e293b;
 }
 
 .vehicle-price {
-    border-top: 1px solid #e5e7eb;
-    margin-top: 20px;
+    border-top: 1px solid #cbd5e1;
+    margin-top: 22px;
     padding-top: 18px;
-    font-size: 26px;
-    font-weight: 750;
-    color: #111827;
+    font-size: 27px;
+    font-weight: 800;
+    color: #1d4ed8;
 }
 
 .vehicle-price span {
     font-size: 13px;
-    font-weight: 400;
-    color: #6b7280;
+    font-weight: 500;
+    color: #475569;
 }
 
 .message {
@@ -200,11 +227,12 @@ Book {{ vehicle.brand }} {{ vehicle.model }} | DriveRent
     max-width: 1050px;
     box-sizing: border-box;
     margin: 0 auto 18px;
-    padding: 13px 16px;
+    padding: 14px 16px;
     border-radius: 9px;
-    background: #eff6ff;
+    background: #ffffff;
     color: #1d4ed8;
-    border: 1px solid #bfdbfe;
+    border: 1px solid #93c5fd;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
 @media (max-width: 760px) {
@@ -213,7 +241,8 @@ Book {{ vehicle.brand }} {{ vehicle.model }} | DriveRent
         width: 92%;
     }
 
-    .booking-card, .vehicle-summary {
+    .booking-card,
+    .vehicle-summary {
         padding: 22px;
     }
 }
@@ -228,6 +257,7 @@ Book {{ vehicle.brand }} {{ vehicle.model }} | DriveRent
         font-size: 22px;
     }
 }
+
 </style>
 
 <section class="booking-page">
