@@ -1,4 +1,5 @@
 {% extends "rentals/base.html" %}
+{% load static %}
 
 {% block title %}
 Available Vehicles | DriveRent
@@ -8,11 +9,24 @@ Available Vehicles | DriveRent
 
 <style>
 
+    
     .vehicles-page {
-        background: #f7f8fa;
+        background:
+            linear-gradient(
+                rgba(15, 23, 42, 0.72),
+                rgba(15, 23, 42, 0.72)
+        ),
+        url("/static/images/vehicles-bg.jpg");
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+
         min-height: 80vh;
         padding: 50px 0 70px;
     }
+
 
     .vehicles-header {
         width: 86%;
@@ -25,20 +39,25 @@ Available Vehicles | DriveRent
     }
 
     .vehicles-header h1 {
-        font-size: 38px;
-        color: #111827;
-        margin-bottom: 8px;
+    font-size: 38px;
+    color: #ffffff;
+    margin-bottom: 8px;
     }
 
     .vehicles-header p {
-        color: #6b7280;
-        font-size: 16px;
+    color: #e5e7eb;
+    font-size: 16px;
     }
 
-    .search-box {
-        width: 86%;
-        max-width: 1200px;
-        margin: 0 auto 35px;
+    .search-box input {
+    width: 100%;
+    padding: 15px 18px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.96);
+    box-sizing: border-box;
     }
 
     .search-box input {
@@ -55,15 +74,17 @@ Available Vehicles | DriveRent
         border-color: #2563eb;
     }
 
+    
     .vehicle-grid {
         width: 86%;
         max-width: 1200px;
-        margin: auto;
+        margin: 50px auto 0;
 
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 25px;
     }
+
 
     .vehicle-card {
         background: white;

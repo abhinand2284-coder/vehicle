@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -158,103 +160,130 @@ def book_vehicle(request, vehicle_id):
 
     if request.method == "POST":
 
-        start_date = request.POST.get(
-            "start_date"
-        )
+        # Get the form data
+        start_date_text = request.POST.get("start_date", "")
+        end_date_text = request.POST.get("end_date", "")
 
-        end_date = request.POST.get(
-            "end_date"
-        )
+        customer_name = request.POST.get(
+            "customer_name", ""
+        ).strip()
 
-        if not start_date or not end_date:
+        customer_email = request.POST.get(
+            "customer_email", ""
+        ).strip()
 
+        customer_phone = request.POST.get(
+            "customer_phone", ""
+        ).strip()
+
+        customer_address = request.POST.get(
+            "customer_address", ""
+        ).strip()
+
+        # Validate required fields
+        if not all([
+            start_date_text,
+            end_date_text,
+            customer_name,
+            customer_email,
+            customer_phone,
+            customer_address
+        ]):
             messages.error(
                 request,
-                "Please select both dates."
+                "Please complete all fields."
             )
-
             return redirect(
                 "book_vehicle",
                 vehicle_id=vehicle.id
             )
 
-        start_date = date.fromisoformat(
-            start_date
-        )
+        # Validate email format
+        from django.core.validators import validate_email
 
-        end_date = date.fromisoformat(
-            end_date
-        )
-
-        if start_date < date.today():
-
+        try:
+            validate_email(customer_email)
+        except ValidationError:
             messages.error(
                 request,
-                "Start date cannot be in the past."
+                "Please enter a valid email address."
+            )
+            return redirect(
+                "book_vehicle",
+                vehicle_id=vehicle.id
             )
 
+        # Validate date format
+        try:
+            start_date = date.fromisoformat(start_date_text)
+            end_date = date.fromisoformat(end_date_text)
+        except ValueError:
+            messages.error(
+                request,
+                "Please select valid rental dates."
+            )
+            return redirect(
+                "book_vehicle",
+                vehicle_id=vehicle.id
+            )
+
+        if start_date < date.today():
+            messages.error(
+                request,
+                "Pickup date cannot be in the past."
+            )
             return redirect(
                 "book_vehicle",
                 vehicle_id=vehicle.id
             )
 
         if end_date <= start_date:
-
             messages.error(
                 request,
-                "End date must be after the start date."
+                "Return date must be after pickup date."
             )
-
             return redirect(
                 "book_vehicle",
                 vehicle_id=vehicle.id
             )
 
-        number_of_days = (
-            end_date - start_date
-        ).days
+        # Calculate rental cost
+        number_of_days = (end_date - start_date).days
 
         total_amount = (
-            number_of_days *
-            vehicle.price_per_day
+            number_of_days * vehicle.price_per_day
         )
 
+        # Check for conflicting bookings
         overlapping_booking = Booking.objects.filter(
             vehicle=vehicle,
             start_date__lt=end_date,
             end_date__gt=start_date,
-            status__in=[
-                "Pending",
-                "Approved"
-            ]
+            status__in=["Pending", "Approved"]
         ).exists()
 
         if overlapping_booking:
-
             messages.error(
                 request,
-                "This vehicle is already booked for the selected dates."
+                "This vehicle is already booked for those dates."
             )
-
             return redirect(
                 "book_vehicle",
                 vehicle_id=vehicle.id
             )
 
+        # Save the booking and customer details
         Booking.objects.create(
-
             customer=request.user,
-
             vehicle=vehicle,
-
+            customer_name=customer_name,
+            customer_email=customer_email,
+            customer_phone=customer_phone,
+            customer_address=customer_address,
             start_date=start_date,
-
             end_date=end_date,
-
             number_of_days=number_of_days,
-
             total_amount=total_amount,
-
             status="Pending"
         )
 
@@ -263,18 +292,24 @@ def book_vehicle(request, vehicle_id):
             "Your booking has been submitted successfully."
         )
 
-        return redirect(
-            "home"
-        )
+        return redirect("my_bookings")
+
+    # Prefill details when possible
+    initial_name = request.user.get_full_name().strip()
+
+    if not initial_name:
+        initial_name = request.user.username
 
     return render(
         request,
         "rentals/book_vehicle.html",
         {
-            "vehicle": vehicle
+            "vehicle": vehicle,
+            "initial_name": initial_name,
+            "initial_email": request.user.email,
+            "today": date.today().isoformat(),
         }
     )
-
 
 def user_logout(request):
 

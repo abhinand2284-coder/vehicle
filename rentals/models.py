@@ -54,8 +54,30 @@ class Booking(models.Model):
         on_delete=models.CASCADE
     )
 
-    start_date = models.DateField()
+    # Customer contact details
+    customer_name = models.CharField(
+        max_length=150,
+        blank=True,
+        default=""
+    )
 
+    customer_email = models.EmailField(
+        blank=True,
+        default=""
+    )
+
+    customer_phone = models.CharField(
+        max_length=20,
+        blank=True,
+        default=""
+    )
+
+    customer_address = models.TextField(
+        blank=True,
+        default=""
+    )
+
+    start_date = models.DateField()
     end_date = models.DateField()
 
     number_of_days = models.PositiveIntegerField()
@@ -76,7 +98,6 @@ class Booking(models.Model):
     )
 
     def __str__(self):
-
         return (
             f"{self.customer.username} - "
             f"{self.vehicle.name}"

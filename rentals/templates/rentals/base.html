@@ -27,35 +27,49 @@
             color: #222;
         }
 
+        
         nav {
-            background: #111827;
-            padding: 18px 7%;
-
+                background: #111827;
+                padding: 18px 7%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
+            gap: 25px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
 
         .logo {
             color: white;
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 27px;
+            font-weight: 800;
             text-decoration: none;
-        }
+            letter-spacing: -1px;
+}
 
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
+        .logo span {
+    color: #60a5fa;
+}
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-        }
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
 
-        .nav-links a:hover {
-            color: #60a5fa;
-        }
+    .nav-links a {
+    color: #e5e7eb;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+    color: #60a5fa;
+    }
+
 
         .container {
             width: 86%;
@@ -78,70 +92,35 @@
 
 <body>
 
-    <nav>
+    
+<nav>
+    <a href="/" class="logo">Drive<span>Rent</span></a>
 
-        <div class="nav-links">
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/vehicles/">Vehicles</a>
 
-        <a href="/">
-        Home
-        </a>
+        {% if user.is_authenticated %}
+            <a href="/my-bookings/">My Bookings</a>
+            <a href="#">{{ user.username }}</a>
+            <a href="/logout/">Logout</a>
+        {% else %}
+            <a href="/login/">Login</a>
+            <a href="/register/">Register</a>
+        {% endif %}
 
-    <a href="/vehicles/">
-        Vehicles
-    </a>
-
-
-    {% if user.is_authenticated %}
-
-        <a href="/my-bookings/">
-         My Bookings
-        </a>
-
-        <a href="#">
-            {{ user.username }}
-        </a>
-
-        <a href="/logout/">
-            Logout
-        </a>
-
-    {% else %}
-
-        <a href="/login/">
-            Login
-        </a>
-
-        <a href="/register/">
-            Register
-        </a>
-
-    {% endif %}
-
-    {% if user.is_staff %}
-
-        <a href="/dashboard/">
-            Admin Dashboard
-        </a>
-
-    {% endif %}
-
+        {% if user.is_staff %}
+            <a href="/dashboard/">Admin Dashboard</a>
+        {% endif %}
     </div>
+</nav>
 
-    </nav>
 
 
     {% block content %}
 
     {% endblock %}
 
-
-    <footer>
-
-        <p>
-            © 2026 DriveRent - Vehicle Rental Management System
-        </p>
-
-    </footer>
 
 </body>
 

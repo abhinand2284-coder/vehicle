@@ -1,140 +1,250 @@
 {% extends "rentals/base.html" %}
 
 {% block title %}
-Create Account | DriveRent
+Register | DriveRent
 {% endblock %}
 
 {% block content %}
 
 <style>
-
     .auth-page {
-        min-height: 75vh;
-
+        min-height: 80vh;
         display: flex;
         align-items: center;
         justify-content: center;
-
-        background: #f7f8fa;
-
         padding: 50px 20px;
+
+        background:
+            radial-gradient(circle at top left, #263b60, transparent 45%),
+            linear-gradient(135deg, #0b1220, #17253b);
+
+        box-sizing: border-box;
     }
 
     .auth-box {
         width: 100%;
-        max-width: 450px;
+        max-width: 460px;
+        padding: 38px 40px;
+        box-sizing: border-box;
 
-        background: white;
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
 
-        border: 1px solid #e5e7eb;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
 
-        border-radius: 14px;
-
-        padding: 40px;
-
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        animation: registerAppear 0.6s ease;
     }
 
-    .auth-box h1 {
+    .brand {
+        text-align: center;
+        margin-bottom: 26px;
+    }
+
+    .brand-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 56px;
+        height: 56px;
+        margin-bottom: 10px;
+
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        border-radius: 16px;
+
+        font-size: 27px;
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .brand h1 {
         color: #111827;
-        margin-bottom: 8px;
+        font-size: 29px;
+        margin: 0 0 7px;
+        font-weight: 800;
+        letter-spacing: -0.8px;
     }
 
-    .auth-box p {
+    .brand h1 span {
+        color: #2563eb;
+    }
+
+    .brand p {
         color: #6b7280;
-        margin-bottom: 30px;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .auth-heading {
+        color: #111827;
+        font-size: 23px;
+        margin: 0 0 8px;
+    }
+
+    .auth-subtitle {
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 0 0 24px;
     }
 
     .auth-box form p {
-        margin-bottom: 18px;
+        margin: 0 0 16px;
     }
 
     .auth-box label {
         display: block;
-
         color: #374151;
-
         font-weight: 600;
-
+        font-size: 14px;
         margin-bottom: 7px;
     }
 
     .auth-box input {
+        display: block;
         width: 100%;
-
-        padding: 12px;
+        padding: 12px 14px;
+        box-sizing: border-box;
 
         border: 1px solid #d1d5db;
-
-        border-radius: 7px;
+        border-radius: 9px;
+        background: #f9fafb;
 
         font-size: 15px;
+        color: #111827;
+
+        transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .auth-box input:focus {
         outline: none;
-
         border-color: #2563eb;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .auth-box .helptext {
+        display: block;
+        margin-top: 6px;
+        color: #6b7280;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .auth-box ul {
+        color: #6b7280;
+        font-size: 12px;
+        line-height: 1.6;
+        padding-left: 20px;
+        margin-top: 7px;
+    }
+
+    .auth-box .errorlist {
+        color: #dc2626;
+        font-size: 13px;
+        margin: 6px 0;
+        padding-left: 18px;
     }
 
     .auth-button {
         width: 100%;
-
         border: none;
 
-        background: #2563eb;
-
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
         color: white;
 
         padding: 14px;
-
-        border-radius: 8px;
+        border-radius: 10px;
 
         font-size: 15px;
-
-        font-weight: 600;
-
+        font-weight: 700;
         cursor: pointer;
+
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .auth-button:hover {
-        background: #1d4ed8;
+        transform: translateY(-2px);
+        box-shadow: 0 9px 20px rgba(37, 99, 235, 0.3);
     }
 
+    .auth-footer {
+        text-align: center;
+        margin-top: 23px;
+        padding-top: 20px;
+        border-top: 1px solid #e5e7eb;
+
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .auth-footer a {
+        color: #2563eb;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+
+    @keyframes registerAppear {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .auth-page {
+            padding: 30px 15px;
+        }
+
+        .auth-box {
+            padding: 28px 22px;
+        }
+    }
 </style>
 
-
 <section class="auth-page">
-
     <div class="auth-box">
 
-        <h1>
-            Create Account
-        </h1>
+        <div class="brand">
+            <div class="brand-icon">🚘</div>
 
-        <p>
-            Register to book vehicles with DriveRent.
+            <h1>Drive<span>Rent</span></h1>
+
+            <p>Your journey starts here.</p>
+        </div>
+
+        <h2 class="auth-heading">Create Your Account</h2>
+
+        <p class="auth-subtitle">
+            Join DriveRent and discover the perfect ride for your next journey.
         </p>
 
-
         <form method="POST">
-
             {% csrf_token %}
 
             {{ form.as_p }}
 
-
-            <button
-                type="submit"
-                class="auth-button"
-            >
-                Create Account
+            <button type="submit" class="auth-button">
+                Create Account →
             </button>
-
         </form>
 
-    </div>
+        <div class="auth-footer">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </div>
 
+    </div>
 </section>
 
 {% endblock %}
+```
